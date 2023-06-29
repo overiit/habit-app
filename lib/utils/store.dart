@@ -45,12 +45,12 @@ class TaskModel extends GetxController {
     update();
   }
 
-  void skipTask({required Task task}) {
+  void skipTask({required Task task, required DateTime nextDue}) {
     int index = tasks.indexOf(task);
     if (index == -1) {
       return;
     }
-    task.skip();
+    task.skip(nextDue);
     tasks[index] = task;
     update();
   }

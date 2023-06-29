@@ -51,13 +51,8 @@ class Task implements Mappable {
     skipped = 0;
   }
 
-  void skip() {
-    nextDue = DateTime(
-      DateTime.now().year,
-      DateTime.now().month,
-      DateTime.now().day + 1,
-      8,
-    );
+  void skip(DateTime nextDue) {
+    this.nextDue = nextDue;
     skipped++;
   }
 

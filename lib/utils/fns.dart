@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:habit/utils/store.dart';
 
 String timeAgo({required int time, bool short = false}) {
   int now = DateTime.now().millisecondsSinceEpoch;
@@ -53,22 +51,20 @@ void confirmCompletion(
     {required BuildContext context,
     required String text,
     required Function onConfirm}) {
-  TaskModel taskModel = Get.find<TaskModel>();
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("Confirmation"),
         content: Text(text),
         actions: <Widget>[
           TextButton(
-            child: Text("Cancel"),
+            child: const Text("Cancel"),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: Text("Yes"),
+            child: const Text("Yes"),
             onPressed: () {
               onConfirm();
               Navigator.of(context).pop();

@@ -102,15 +102,74 @@ class HomePage extends StatelessWidget {
           children: [
             Expanded(
               child: BetterButton(
-                "SKIP TODAY",
-                padding: const EdgeInsets.only(top: 15, bottom: 15),
+                "IN 1 HOUR",
                 onPressed: () {
                   confirmCompletion(
                     context: context,
-                    text: "Are you sure you want to skip this task",
+                    text: "Skip this task for 1 hour?",
                     onConfirm: () {
                       TaskModel taskModel = Get.find();
-                      taskModel.skipTask(task: task);
+                      taskModel.skipTask(
+                        task: task,
+                        nextDue: DateTime.now().add(const Duration(hours: 1)),
+                      );
+                    },
+                  );
+                },
+                color: Colors.transparent,
+                borderColor: const Color(0xFFDB7777),
+                style: const TextStyle(
+                  color: Color(0xFFDB7777),
+                  fontWeight: FontWeight.w900,
+                ),
+                overlayColor: const Color(0x16DD7C7C),
+              ),
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: BetterButton(
+                "IN 3 HOURS",
+                onPressed: () {
+                  confirmCompletion(
+                    context: context,
+                    text: "Skip this task for 3 hours?",
+                    onConfirm: () {
+                      TaskModel taskModel = Get.find();
+                      taskModel.skipTask(
+                          task: task,
+                          nextDue:
+                              DateTime.now().add(const Duration(hours: 3)));
+                    },
+                  );
+                },
+                color: Colors.transparent,
+                borderColor: const Color(0xFFDB7777),
+                style: const TextStyle(
+                  color: Color(0xFFDB7777),
+                  fontWeight: FontWeight.w900,
+                ),
+                overlayColor: const Color(0x16DD7C7C),
+              ),
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: BetterButton(
+                "NOT TODAY",
+                onPressed: () {
+                  confirmCompletion(
+                    context: context,
+                    text: "Skip this task for today?",
+                    onConfirm: () {
+                      TaskModel taskModel = Get.find();
+                      taskModel.skipTask(
+                        task: task,
+                        nextDue: DateTime(
+                          DateTime.now().year,
+                          DateTime.now().month,
+                          DateTime.now().day + 1,
+                          8,
+                        ),
+                      );
                     },
                   );
                 },
@@ -135,7 +194,7 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   confirmCompletion(
                     context: context,
-                    text: "Are you sure you want to complete this task?",
+                    text: "Have you completed this task?",
                     onConfirm: () {
                       TaskModel taskModel = Get.find();
                       taskModel.completeTask(task: task);
