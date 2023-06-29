@@ -61,6 +61,12 @@ class HomePage extends StatelessWidget {
   }
 
   Widget currentTaskView({required BuildContext context, required Task task}) {
+    String infoText = "";
+    if (!task.isDue) {
+      infoText = "Completed today";
+    } else if (task.skipped > 0) {
+      infoText = "Skipped ${task.skipped} times";
+    }
     return Column(
       children: [
         Expanded(
@@ -81,6 +87,14 @@ class HomePage extends StatelessWidget {
                   fontSize: 36,
                 ),
               ),
+              Text(
+                infoText,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: task.skipped > 0 ? Colors.red : Colors.grey,
+                ),
+              )
             ],
           ),
         ),
@@ -128,7 +142,7 @@ class HomePage extends StatelessWidget {
                     },
                   );
                 },
-                color: Color.fromARGB(255, 107, 216, 145),
+                color: const Color.fromARGB(255, 107, 216, 145),
                 style: const TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w900),
               ),

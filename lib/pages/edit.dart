@@ -12,7 +12,7 @@ class EditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(15),
+      margin: EdgeInsets.only(top: 15, left: 15, right: 15),
       child: const Column(
         children: [
           AddTask(),
@@ -43,38 +43,69 @@ class TaskList extends StatelessWidget {
             } else {
               infoText = "Not completed";
             }
-            return ListTile(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
               key: Key(index.toString()),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(entry.name),
-                  Text(
-                    infoText,
-                    style: TextStyle(
-                      color: entry.skipped > 0 ? Colors.red : Colors.grey,
-                      fontSize: 12,
-                    ),
+                  const Icon(Icons.drag_handle),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        entry.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Text(
+                        infoText,
+                        style: TextStyle(
+                          color: entry.skipped > 0 ? Colors.red : Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
                   ),
+                  const Spacer(),
+                  if (!entry.isDue)
+                    IconButton(
+                      onPressed: () {
+                        confirmCompletion(
+                          context: context,
+                          text:
+                              "Are you sure you want to redo \"${entry.name}\"?",
+                          onConfirm: () {
+                            TaskModel taskModel = Get.find();
+                            taskModel.uncompleteTask(task: entry);
+                          },
+                        );
+                      },
+                      splashRadius: 20,
+                      icon: const Icon(Icons.restart_alt),
+                    ),
+                  IconButton(
+                    onPressed: () {
+                      confirmCompletion(
+                        context: context,
+                        text:
+                            "Are you sure you want to delete \"${entry.name}\"? This cannot be undone.",
+                        onConfirm: () {
+                          TaskModel taskModel = Get.find();
+                          taskModel.removeTask(task: entry);
+                        },
+                      );
+                    },
+                    splashRadius: 20,
+                    icon: const Icon(Icons.delete),
+                  )
                 ],
               ),
-              leading: const Icon(Icons.drag_handle),
-              trailing: IconButton(
-                  onPressed: () {
-                    confirmCompletion(
-                      context: context,
-                      text:
-                          "Are you sure you want to delete \"${entry.name}\"? This cannot be undone.",
-                      onConfirm: () {
-                        TaskModel taskModel = Get.find();
-                        taskModel.removeTask(task: entry);
-                      },
-                    );
-                  },
-                  icon: const Icon(Icons.delete)),
             );
           }).toList(),
         );

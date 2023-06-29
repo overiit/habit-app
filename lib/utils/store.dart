@@ -25,6 +25,16 @@ class TaskModel extends GetxController {
     update();
   }
 
+  void uncompleteTask({required Task task}) {
+    int index = tasks.indexOf(task);
+    if (index == -1) {
+      return;
+    }
+    task.uncomplete();
+    tasks[index] = task;
+    update();
+  }
+
   void completeTask({required Task task}) {
     int index = tasks.indexOf(task);
     if (index == -1) {

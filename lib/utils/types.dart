@@ -32,6 +32,10 @@ class Task implements Mappable {
         DateTime.now().millisecondsSinceEpoch;
   }
 
+  void uncomplete() {
+    nextDue = DateTime.now();
+  }
+
   void complete() {
     if (type == TaskType.repeating) {
       // due in 1 day at 8 am (currently its not 8 am)
