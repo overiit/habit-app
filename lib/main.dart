@@ -39,20 +39,23 @@ class NavigatedPageState extends State<NavigatedPage> {
       if (!dataLoader.loaded) {
         return Loader();
       }
-      return SafeArea(
-        child: WillPopScope(
-          onWillPop: () async {
-            Get.back(closeOverlays: true);
-            return false;
-          },
-          child: Scaffold(
-            body: Column(
-              children: [
-                const Navigation(),
-                Expanded(
-                  child: widget.child,
-                ),
-              ],
+      return Container(
+        color: Colors.white,
+        child: SafeArea(
+          child: WillPopScope(
+            onWillPop: () async {
+              Get.back(closeOverlays: true);
+              return false;
+            },
+            child: Scaffold(
+              body: Column(
+                children: [
+                  const Navigation(),
+                  Expanded(
+                    child: widget.child,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -77,7 +80,7 @@ class MainApp extends StatelessWidget {
         scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
         colorScheme: const ColorScheme.light(
           primary: Colors.black,
-          secondary: Colors.blue,
+          secondary: Colors.white,
         ),
         fontFamily: 'Inter',
         fontFamilyFallback: const ['Roboto', 'sans-serif'],
